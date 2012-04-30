@@ -222,28 +222,29 @@ function music_note_move(current_time)
 		this.x_velocity = 1
 		this.y_velocity = 1
 
-		var note = new music_note(this.x_index - 1, this.y_index, 1 , - 1 , 1 , 1 , this.color , this.tone , this.intensity)
+		var note = new music_note(this.x_index, this.y_index, 0 , - 1 , 1 , 1 , this.color , this.tone , this.intensity)
 		actors.push(note)
 		note.simple_move()
 	
-		this.y_index += 1
-		this.simple_move()
+		this.x_index += 1
+		//this.simple_move()
 	}
 	else if(check_crook_down_left(this.x_index , this.y_index))
 	{
+		
 		this.x_direction = 1
 		this.y_direction = 1
 
 		this.x_velocity = 1
 		this.y_velocity = 1
 
-		var note = new music_note(this.x_index - 1 , this.y_index , 1 , 1 , 1 , 1, this.color , this.tone , this.intensity)
+		var note = new music_note(this.x_index, this.y_index , 0 , 1 , 1 , 1, this.color , this.tone , this.intensity)
 
 		actors.push(note)
 		note.simple_move()
 
-		this.y_index -= 1
-		this.simple_move()
+		this.x_index += 1
+		//this.simple_move()
 
 	}
 	else if(check_crook_up_right(this.x_index , this.y_index))
@@ -254,12 +255,12 @@ function music_note_move(current_time)
 		this.x_velocity = 1
 		this.y_velocity = 1
 
-		var note = new music_note(this.x_index + 1, this.y_index, -1 , - 1 , 1 , 1 , this.color , this.tone , this.intensity)
+		var note = new music_note(this.x_index, this.y_index, 0, - 1 , 1 , 1 , this.color , this.tone , this.intensity)
 		actors.push(note)
 		note.simple_move()
 	
-		this.y_index += 1
-		this.simple_move()
+		this.x_index -= 1
+		//this.simple_move()
 
 	}
 	else if(check_crook_down_right(this.x_index , this.y_index))
@@ -270,16 +271,16 @@ function music_note_move(current_time)
 		this.x_velocity = 1
 		this.y_velocity = 1
 
-		var note = new music_note(this.x_index + 1, this.y_index, -1 , 1 , 1 , 1 , this.color , this.tone , this.intensity)
+		var note = new music_note(this.x_index, this.y_index, 0 , 1 , 1 , 1 , this.color , this.tone , this.intensity)
 		actors.push(note)
 		note.simple_move()
 	
-		this.y_index -= 1
-		this.simple_move()
+		this.x_index -= 1
+		//this.simple_move()
 	}
 	else if(check_crook_left_down(this.x_index , this.y_index))
 	{
-		this.x_direction = -1
+		/*this.x_direction = -1
 		this.y_direction = -1
 
 		this.x_velocity = 1
@@ -289,7 +290,7 @@ function music_note_move(current_time)
 		actors.push(note)
 		note.simple_move()
 	
-		this.x_index += 1
+		this.x_index += 1*/
 		this.simple_move()
 
 	}
