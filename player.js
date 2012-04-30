@@ -46,7 +46,7 @@ function music_maker_move(current_time)
 			var neighbor_y = neighbors[i][1]
 
 			var direction_x = neighbor_x - this.x_index
-			var direction_y = neighbor_y - this.y_index
+			var direction_y = direction_x == 0 ? (neighbor_y - this.y_index) : 0
 
 			var note = new music_note(neighbor_x , neighbor_y , direction_x , direction_y , 1 , 1 , [this.color[0] + 40 , this.color[1] + 40 , this.color[2] + 40] , this.tone , 7)
 
@@ -119,28 +119,6 @@ function check_crook_down_right(curr_x , curr_y)
 	return game_board_get(curr_x + 1 , curr_y + 1) instanceof music_note && game_board_get(curr_x, curr_y - 1) instanceof music_note
 }
 
-function check_crook_right_up(curr_x , curr_y)
-{
-	return game_board_ger(curr_x - 1 , curr_y) instanceof music_note && game_board_get(curr_x + 1 , curr_y - 1) instanceof music_note
-}
-
-function check_crook_right_down(curr_x , curr_y)
-{
-	return game_board_get(curr_x - 1 , curr_y) instanceof music_note && game_board_get(curr_x + 1 , curr_y + 1) instanceof music_note
-}
-
-function check_crook_left_up(curr_x , curr_y)
-{
-
-	return game_board_get(curr_x - 1 , curr_y - 1) instanceof music_note && game_board_get(curr_x + 1 , curr_y) instanceof music_note
-}
-
-function check_crook_left_down(curr_x , curr_y)
-{
-	
-	return game_board_get(curr_x - 1 , curr_y + 1) instanceof music_note && game_board_get(curr_x + 1 , curr_y) instanceof music_note
-}
-
 function simple_move(current_time)
 {
 	var next_valid = gen_next_valid(this.x_index , this.y_index , this.x_direction , this.y_direction , this.x_velocity , this.y_velocity)
@@ -161,143 +139,36 @@ function simple_move(current_time)
 
 function music_note_move(current_time)
 {
-	if(check_edge_up_right(this.x_index , this.y_index))
-	{
-		this.y_direction = 1
-		this.x_direction = 0
-
-		var note = new music_note(this.x_index , this.y_index , -1 , 0 , 1 , 0 , this.color , this.tone , this.intensity)
-
-		actors.push(note)
-		note.simple_move()
-
-		this.simple_move()
-	}
-	else if(check_edge_up_left(this.x_index , this.y_index))
-	{
-		this.y_direction = 1
-		this.x_direction = 0
 	
-		var note = new music_note(this.x_index , this.y_index , 1 , 0 , 1 , 0 , this.color , this.tone , this.intensity)
+	if((check_edge_down_right(this.x_index , this.y_index)
+		|| check_edge_down_left(this.x_index , this.y_index))
+		^ 
+		(check_crook_up_right(this.x_index , this.y_index)
+		|| check_crook_up_left(this.x_index , this.y_index))
+		&&
+		!(check_vertical(this.x_index , this.y_index)))
+	{
+
+		var note = new music_note(this.x_index , this.y_index , 0 , -1 , 0 , 1 , this.color , this.tone , this.intensity)
+
 		actors.push(note)
 		note.simple_move()
+
+	}
+	else if((check_edge_up_left(this.x_index , this.y_index)
+		 || check_edge_up_right(this.x_index , this.y_index))
+		^ 
+		(check_crook_down_left(this.x_index , this.y_index)
+		|| check_crook_down_right(this.x_index , this.y_index))
+		&&
+		!(check_vertical(this.x_index , this.y_index)))
+	{
+		var note = new music_note(this.x_index , this.y_index , 0 , 1 , 0 , 1 , this.color , this.tone , this.intensity)
+		actors.push(note)
+		note.simple_move()
+	}
 	
-		this.simple_move()
-	}
-	else if(check_edge_down_right(this.x_index , this.y_index))
-	{
-		this.y_direction = -1
-		this.x_direction = 0
-
-		var note = new music_note(this.x_index , this.y_index , -1 , 0 , 1 , 0 , this.color , this.tone , this.intensity)
-		actors.push(note)
-		note.simple_move()
-		
-		this.simple_move()
-	}
-	else if(check_edge_down_left(this.x_index , this.y_index))
-	{
-		this.y_direction = -1
-		this.x_direction = 0
-
-		var note = new music_note(this.x_index , this.y_index , 1 , 0 , 1 , 0 , this.color , this.tone , this.intensity)
-		actors.push(note)
-		note.simple_move()
-		
-		this.simple_move()
-	}
-	else if(check_horizontal(this.x_index , this.y_index))
-	{
-		this.simple_move()
-	}
-	else if(check_vertical(this.x_index , this.y_index))
-	{
-		this.simple_move()
-	}
-	else if(check_crook_up_left(this.x_index , this.y_index))
-	{
-		this.x_direction = 1
-		this.y_direction = -1
-
-		this.x_velocity = 1
-		this.y_velocity = 1
-
-		var note = new music_note(this.x_index, this.y_index, 0 , - 1 , 1 , 1 , this.color , this.tone , this.intensity)
-		actors.push(note)
-		note.simple_move()
-	
-		this.x_index += 1
-		//this.simple_move()
-	}
-	else if(check_crook_down_left(this.x_index , this.y_index))
-	{
-		
-		this.x_direction = 1
-		this.y_direction = 1
-
-		this.x_velocity = 1
-		this.y_velocity = 1
-
-		var note = new music_note(this.x_index, this.y_index , 0 , 1 , 1 , 1, this.color , this.tone , this.intensity)
-
-		actors.push(note)
-		note.simple_move()
-
-		this.x_index += 1
-		//this.simple_move()
-
-	}
-	else if(check_crook_up_right(this.x_index , this.y_index))
-	{
-		this.x_direction = -1
-		this.y_direction = -1
-
-		this.x_velocity = 1
-		this.y_velocity = 1
-
-		var note = new music_note(this.x_index, this.y_index, 0, - 1 , 1 , 1 , this.color , this.tone , this.intensity)
-		actors.push(note)
-		note.simple_move()
-	
-		this.x_index -= 1
-		//this.simple_move()
-
-	}
-	else if(check_crook_down_right(this.x_index , this.y_index))
-	{
-		this.x_direction = -1
-		this.y_direction = 1
-
-		this.x_velocity = 1
-		this.y_velocity = 1
-
-		var note = new music_note(this.x_index, this.y_index, 0 , 1 , 1 , 1 , this.color , this.tone , this.intensity)
-		actors.push(note)
-		note.simple_move()
-	
-		this.x_index -= 1
-		//this.simple_move()
-	}
-	else if(check_crook_left_down(this.x_index , this.y_index))
-	{
-		/*this.x_direction = -1
-		this.y_direction = -1
-
-		this.x_velocity = 1
-		this.y_velocity = 1
-
-		var note = new music_note(this.x_index, this.y_index + 1, -1 , -1 , 1 , 1 , this.color , this.tone , this.intensity)
-		actors.push(note)
-		note.simple_move()
-	
-		this.x_index += 1*/
-		this.simple_move()
-
-	}
-	else
-	{
-		this.simple_move()
-	}
+	this.simple_move()
 }
 
 function music_note(x_index , y_index , x_direction , y_direction , x_velocity ,  y_velocity , color , tone , intensity)
