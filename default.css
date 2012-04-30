@@ -1,0 +1,19 @@
+.game
+{
+	width:1250px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.choices
+{
+	width:350px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+h1
+{
+	text-align:center;
+}
+

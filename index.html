@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<script src="game_board.js" type="text/javascript"></script>
+<script src="player.js" type="text/javascript"></script>
+
+
+<link href="default.css" rel="stylesheet" type="text/css">
+</head>
+
+<body onload="init()">
+	<h1> JAME GAM </h1>
+
+	<marquee><blink><h2>AWARD WINNING</h2></blink></marquee>
+
+	<div id="choices" class="choices">
+		<label for="points_input"> Number of points </label> 
+		<input type="text"  id="points_input" class="points_input"></input>
+		<button onclick = "start_game()">Start "Game"!</button>
+	</div>
+
+	<div id="game" class="game">
+		<canvas id="game_board"></canvas>
+	</div>
+</body>
+
+</html>
