@@ -1,19 +1,12 @@
-.game
+body
 {
-	width:1250px;
+	background-color:rgb(225 , 225 , 225);
+}
+
+#game_div
+{
+	width:1140px;
+
 	margin-left:auto;
 	margin-right:auto;
 }
-
-.choices
-{
-	width:350px;
-	margin-left:auto;
-	margin-right:auto;
-}
-
-h1
-{
-	text-align:center;
-}
-

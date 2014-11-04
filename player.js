@@ -40,7 +40,11 @@ function music_maker_move(current_time)
 	{
 		var neighbors = gen_neighbors(this.x_index , this.y_index)
 
-		for(i = 0; i < neighbors.length; i++)
+		//var num_neighbors = Math.floor(Math.random() * neighbors.length)
+		var num_neighbors = neighbors.length
+
+
+		for(i = 0; i < num_neighbors; i++)
 		{
 			var neighbor_x = neighbors[i][0]
 			var neighbor_y = neighbors[i][1]
@@ -48,7 +52,7 @@ function music_maker_move(current_time)
 			var direction_x = neighbor_x - this.x_index
 			var direction_y = direction_x == 0 ? (neighbor_y - this.y_index) : 0
 
-			var note = new music_note(neighbor_x , neighbor_y , direction_x , direction_y , 1 , 1 , [this.color[0] + 40 , this.color[1] + 40 , this.color[2] + 40] , this.tone , 7)
+			var note = new music_note(neighbor_x , neighbor_y , direction_x , direction_y , 1 , 1 , [this.color[0] + 16, this.color[1] + 16, this.color[2] + 16] , this.tone , 6)
 
 			actors.push(note)
 			//Should replace all these accesses with one that will support multiple game boards
@@ -64,9 +68,29 @@ function player_move(current_time)
 	var next_x = next_index[0]
 	var next_y = next_index[1]
 
+	if(next_x == this.x_index &&
+		next_y == this.y_index)
+	{
+		if(this.x_direction < 0)
+		{
+			start_game_with_player(num_box_width - 1 , this.y_index)
+		}
+		else if(this.x_direction > 0)
+		{
+			start_game_with_player(0 , this.y_index)
+		}
+		else if(this.y_direction > 0)
+		{
+			start_game_with_player(this.x_index , 0)
+		}
+		else if(this.y_direction < 0)
+		{
+			start_game_with_player(this.x_index , num_box_height - 1)
+		}
+	}
+
 	this.x_index = next_x
 	this.y_index = next_y
-
 }
 
 function check_horizontal(curr_x , curr_y)
@@ -88,7 +112,6 @@ function check_edge_down_left(curr_x , curr_y)
 {
 	return game_board_get(curr_x , curr_y + 1) instanceof music_note && game_board_get(curr_x - 1 , curr_y) instanceof music_note
 }
-
 function check_edge_up_right(curr_x , curr_y)
 {
 	return game_board_get(curr_x , curr_y - 1) instanceof music_note && game_board_get(curr_x + 1 , curr_y) instanceof music_note
